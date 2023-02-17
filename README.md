@@ -39,5 +39,9 @@ FoxIdenticon::create($_GET['str']??null,$_GET['s']??null,true,false);
 
 4- `thickBorder` the private property boolean to make the border thick or thin, default is false -thin border-
 
-5- `salt` Optional string public property to salt the input string, if you wish unique output for your app.
+-----------
+
+**Public Properties**
+
+1- `salt` Optional string public property to salt the input string, if you wish unique output for your app.
 
