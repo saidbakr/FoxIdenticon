@@ -30,13 +30,17 @@ class FoxIdenticon
     private static $bgColor;
     private static $fgColor;
     private static $size;
+    private static $w;
+    private static $thickBorder;
+    private static $hasTrimmedBorder;
     private static function hash($input = '')
     {
         self::$hash = md5($input);
     }
-    public function create($input = '', $size = 1)
+    public function create($input = '', $size = 1, $hasTrimmedBorder = false, $thickBorder = false)
     {
-        //die(var_dump($size));
+        self::$hasTrimmedBorder = $hasTrimmedBorder;
+        self::$thickBorder = $thickBorder;
         self::$size = $size?? 6;
         self::createImage($input);  
         header("Content-type: image/png; Cache-Control: no-store, no-cache, must-revalidate");
@@ -65,6 +69,7 @@ class FoxIdenticon
     {
         self::hash($input);
         $w = 15*self::$size;
+        self::$w = $w;
         $h = 15*self::$size;
         self::$image = imagecreate($w, $h);  
         self::colorSet();
@@ -85,8 +90,39 @@ class FoxIdenticon
         {
             self::imagelinethick(self::$image,$sequence['x'][$i][0]*self::$size,$sequence['y'][$i][0]*self::$size,$sequence['x'][$i][1]*self::$size,$sequence['y'][$i][1]*self::$size,self::$fgColor,2);
         }
+        if (self::$hasTrimmedBorder)
+        {
+            self::trimmedBorder();
+        }
+        
     }
     
+    private function trimmedBorder()
+    {
+        self::imagelinethick(self::$image,0,0,self::$w-(self::$w/1.6),0,self::$fgColor,self::isThickBorder());
+        self::imagelinethick(self::$image,0,0,0,self::$w-(self::$w/1.6),self::$fgColor,self::isThickBorder());
+        
+        self::imagelinethick(self::$image,self::$w/1.6,0,self::$w,0,self::$fgColor,self::isThickBorder());
+        self::imagelinethick(self::$image,self::$w,0,self::$w,self::$w-(self::$w/1.6),self::$fgColor,self::isThickBorder());
+        
+        self::imagelinethick(self::$image,0,self::$w/1.6,0,self::$w,self::$fgColor,self::isThickBorder());
+        self::imagelinethick(self::$image,0,self::$w,self::$w-(self::$w/1.6),self::$w,self::$fgColor,self::isThickBorder());
+        
+        self::imagelinethick(self::$image,self::$w,self::$w,self::$w/1.6,self::$w,self::$fgColor,self::isThickBorder());
+        self::imagelinethick(self::$image,self::$w,self::$w,self::$w,self::$w/1.6,self::$fgColor,self::isThickBorder());        
+    }
+    private function isThickBorder()
+    {
+        if (self::$thickBorder)
+        {
+            return self::$size*1.6;
+        }
+        else
+        {
+            return self::$size/1.6;
+        }
+        
+    }
     private function imagelinethick($image, $x1, $y1, $x2, $y2, $color, $thick = 1)
     {
         /* this way it works well only for orthogonal lines
