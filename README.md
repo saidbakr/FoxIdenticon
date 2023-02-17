@@ -20,8 +20,11 @@ FoxIdenticon::create($_GET['str']??null,$_GET['s']??null,true,false);
 **Parameters**
 
 1- The string that is going to be hashed to generate lines
+
 2- The Int or float size of the image 
+
 3- `hasTrimmedBorder` the private property boolean default is false -No border-
+
 4- `thickBorder` the private property boolean to make the border thick or thin, default is false -thin border-
 
 ![Avatar](avatar.png)
@@ -30,7 +33,7 @@ FoxIdenticon::create($_GET['str']??null,$_GET['s']??null,true,false);
 ![Avatar](avatar3.png)
 ![Avatar](avatar4.png)
 
-**With border samples:
+**With border samples:**
 
 ![Avatar](avatar5.png)
 ![Avatar](avatar6.png)
