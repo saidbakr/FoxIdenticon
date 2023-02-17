@@ -29,6 +29,7 @@ class FoxIdenticon
     private static $image;
     private static $bgColor;
     private static $fgColor;
+    private static $altColor;
     private static $size;
     private static $w;
     private static $thickBorder;
@@ -82,6 +83,7 @@ class FoxIdenticon
 		$blue = hexdec(substr(self::$hash,6,2));
 		self::$bgColor = imagecolorallocate(self::$image, $red, $green, $blue);
 		self::$fgColor = imagecolorallocate(self::$image, abs($red-255), abs($green-255), abs($blue-255));
+        self::$altColor = imagecolorallocate(self::$image,abs($blue-255),abs($red-255),abs($green-255));
 	}
 	
 	private function drawLines($sequence)
@@ -135,9 +137,9 @@ class FoxIdenticon
         if ($thick == 1) {
             return imageline($image, $x1, $y1, $x2, $y2, $color);
         }
-        $t = $thick / 2 - 0.5;
+        $t = $thick / 2 - 0.5;//
         if ($x1 == $x2 || $y1 == $y2) {
-            return imagefilledrectangle($image, round(min($x1, $x2) - $t), round(min($y1, $y2) - $t), round(max($x1, $x2) + $t), round(max($y1, $y2) + $t), $color);
+            return imagefilledrectangle($image, (min($x1, $x2) - $t), (min($y1, $y2) - $t), (max($x1, $x2) + $t), (max($y1, $y2) + $t), $color);
         }
         $k = ($y2 - $y1) / ($x2 - $x1); //y = kx + q
         $a = $t / sqrt(1 + pow($k, 2));
