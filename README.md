@@ -1,3 +1,14 @@
+![Avatar](avatar.png)
+![Avatar](avatar1.png)
+![Avatar](avatar2.png)
+![Avatar](avatar3.png)
+![Avatar](avatar4.png)
+
+**With border samples:**
+
+![Avatar](avatar5.png)
+![Avatar](avatar6.png)
+![Avatar](avatar7.png)
 # FoxIdenticon
 Simple PHP identicon static class to create fireworks splash avatars
 
@@ -27,14 +38,3 @@ FoxIdenticon::create($_GET['str']??null,$_GET['s']??null,true,false);
 
 4- `thickBorder` the private property boolean to make the border thick or thin, default is false -thin border-
 
-![Avatar](avatar.png)
-![Avatar](avatar1.png)
-![Avatar](avatar2.png)
-![Avatar](avatar3.png)
-![Avatar](avatar4.png)
-
-**With border samples:**
-
-![Avatar](avatar5.png)
-![Avatar](avatar6.png)
-![Avatar](avatar7.png)
