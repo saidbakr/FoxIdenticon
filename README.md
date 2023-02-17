@@ -25,6 +25,7 @@ The parameter `s` stands for **size** and the size here is an operand multiplied
 namespace saidbakr;
 require_once('FoxIdenticon.php');
 use \saidbakr\FoxIdenticon;
+FoxIdenticon::$salt = 'SomeSaltString'; // to get unique output.
 FoxIdenticon::create($_GET['str']??null,$_GET['s']??null,true,false);
 
 ```
@@ -37,4 +38,6 @@ FoxIdenticon::create($_GET['str']??null,$_GET['s']??null,true,false);
 3- `hasTrimmedBorder` the private property boolean default is false -No border-
 
 4- `thickBorder` the private property boolean to make the border thick or thin, default is false -thin border-
+
+5- `salt` String public property to salt the input string, if you wish unique output for your app.
 

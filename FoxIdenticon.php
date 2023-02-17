@@ -25,6 +25,7 @@ class FoxIdenticon
         'e' => [14,1],
         'f' => [15,0]
     ];
+    public static $salt;
     private static $hash;
     private static $image;
     private static $bgColor;
@@ -36,7 +37,16 @@ class FoxIdenticon
     private static $hasTrimmedBorder;
     private static function hash($input = '')
     {
-        self::$hash = md5($input);
+        if (!empty(self::$salt))
+        {
+            self::$hash = md5(self::salting($input,self::$salt));
+            
+        }
+        else
+        {
+            self::$hash = md5($input);            
+        }
+        
     }
     public function create($input = '', $size = 1, $hasTrimmedBorder = false, $thickBorder = false)
     {
@@ -73,8 +83,10 @@ class FoxIdenticon
         self::$w = $w;
         $h = 15*self::$size;
         self::$image = imagecreate($w, $h);  
+        imageantialias(self::$image, true);
         self::colorSet();
         self::drawLines(self::makeSequence());        
+        //imagefilter(self::$image,IMG_FILTER_SMOOTH,6);        
     }
     
     private function colorSet(){        
@@ -90,8 +102,23 @@ class FoxIdenticon
     {
         for ($i = 0; $i < count($sequence['x']); $i++)
         {
-            self::imagelinethick(self::$image,$sequence['x'][$i][0]*self::$size,$sequence['y'][$i][0]*self::$size,$sequence['x'][$i][1]*self::$size,$sequence['y'][$i][1]*self::$size,self::$fgColor,2);
+            $x1 = $sequence['x'][$i][0]*self::$size;
+            $y1 = $sequence['y'][$i][0]*self::$size;
+            $x2 = $sequence['x'][$i][1]*self::$size;
+            $y2 = $sequence['y'][$i][1]*self::$size;
+            self::imagelinethick(self::$image,$x1,$y1,$x2,$y2,self::$fgColor,2);
+            $startPoints[] = [$x1,$y1];
+            $endPoints[] = [$x2,$y2];
         }
+        /*sort($startPoints);
+        sort($endPoints);
+        $rEndPoints = array_reverse($endPoints);
+        for ($i = 0; $i < count($endPoints); $i++)
+        {
+            self::imagelinethick(self::$image,$startPoints[$i][0],$startPoints[$i][1],$endPoints[$i+1][0],$endPoints[$i+1][1],self::$altColor,3);
+            self::imagelinethick(self::$image,$endPoints[$i][0],$endPoints[$i][1],$startPoints[$i+1][0],$startPoints[$i+1][1],self::$altColor,3);
+            $i++;
+        }*/
         if (self::$hasTrimmedBorder)
         {
             self::trimmedBorder();
@@ -151,5 +178,30 @@ class FoxIdenticon
         );
         imagefilledpolygon($image, $points, 4, $color);
         return imagepolygon($image, $points, 4, $color);
+    }
+    
+    private function salting ($word, $salt)
+    {            
+        $words = str_split($word,3);
+        $salts = str_split($salt,3);
+        $cWords = count($words);
+        $cSalts = count($salts);    
+        $output = '';
+        if ($cWords > $cSalts)
+        {
+            $gr = $words;
+            $sm = $salts;
+        }
+        else
+        {
+            $gr = $salts;
+            $sm = $words;
+        }
+        $grSm = array_merge($gr,$sm);
+        for ($i=0; $i < count($gr); $i++)
+        {
+            $output .= $grSm[$i].$grSm[$i+(count($sm))];        
+        }
+        return $output;
     }
 }
