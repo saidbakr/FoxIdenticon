@@ -182,8 +182,9 @@ class FoxIdenticon
     
     private function salting ($word, $salt)
     {            
-        $words = str_split($word,3);
-        $salts = str_split($salt,3);
+        define('CUTLEN',2);
+        $words = str_split($word,CUTLEN);
+        $salts = str_split($salt,CUTLEN);
         $cWords = count($words);
         $cSalts = count($salts);    
         $output = '';
@@ -197,11 +198,12 @@ class FoxIdenticon
             $gr = $salts;
             $sm = $words;
         }
-        $grSm = array_merge($gr,$sm);
+       // $grSm = array_merge($gr,$sm);
         for ($i=0; $i < count($gr); $i++)
-        {
-            $output .= $grSm[$i].$grSm[$i+(count($sm))];        
-        }
+        {   
+            $output .= ($salts[$i] ?? '').($words[$i] ?? '');          
+        }        
+       // die($output.' '.strlen($output).' '.strlen($word).' '.strlen($salt).' =>'.count($words).$words[0]);
         return $output;
     }
 }
