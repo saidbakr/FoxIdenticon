@@ -20,6 +20,24 @@ myhost.example/avatar.php?str=someUserName&s=10
 ```
 The parameter `s` stands for **size** and the size here is an operand multiplied by 15. In other words, `10` means the width and the height of the image will be 150px
 
+**New**
+Introduced new URL parameters in the example `avatar.php` to allow more control on the generated image.
+
+`b` when it is set, it generates border.
+`t` when it is set, it generates thick border
+Example:
+```
+myhost.example/avatar.php?str=someUserName&s=10&b&t
+// A thick border is generated.
+
+myhost.example/avatar.php?str=someUserName&s=10&b
+// A the default thin border is generated.
+
+myhost.example/avatar.php?str=someUserName&s=10&t
+// There is no any border will be generated, becuase the b parameter is not set.
+```
+
+
 ```php
 <?php
 namespace saidbakr;
