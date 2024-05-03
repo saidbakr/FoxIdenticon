@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>Test FoxIdenticon</title>
+    
+  </head>
+  <body>
+    <header></header>
+    <main>
+    <fieldset>
+    <legend>Specs.</legend>
+    <form id="specs">
+    <label>Text
+      <input type="text" name="str" id="str" placeholder="Text" value="" />
+    </label>
+    <label>Size
+      <input type="number" name="s" id="s" value="10" min="1" max="36" />
+    </label>
+    <label>Border
+      <input type="checkbox" name="b" id="b" onchange="toggleT()" />
+    </label>
+    <label>Thick
+      <input type="checkbox" name="t" id="t" disabled />
+    </label>
+    <input type="button" id="change" value="Change" onclick="obj.change()" />
+    </form>
+    </fieldset>
+    <div style="text-align:center; margin-top: 15px">
+      <img id="img" src="avatar.php?str=&s=10" />
+    </div>
+    </main>
+    <footer></footer>
+    <script>
+    let b = document.getElementById('b');
+    let t = document.getElementById('t');
+    let obj = {
+     baseURL: 'avatar.php',
+     img:  document.getElementById('img'),
+     text: document.getElementById('str').value,
+     size: document.getElementById('s').value,
+     border: document.getElementById('b'),
+     thick: document.getElementById('t'),
+     updateValues: function(){
+      this.text= document.getElementById('str').value;
+      this.size= document.getElementById('s').value;
+      this.border= document.getElementById('b');
+      this.thick= document.getElementById('t');
+     },
+     createURL: function(){
+      this.updateValues();
+      let url = this.baseURL+'?str='+this.text+'&s='+this.size+((this.border.checked)?'&b':'')+((this.thick.checked)?'&t':'');
+      return url;
+     },
+     change: function(){
+     console.log(this.createURL())
+     this.img.setAttribute('src',this.createURL());
+     }     
+    }
+    function toggleT(){
+      if (b.checked){
+        t.removeAttribute('disabled');
+      }
+      else{
+        t.checked = false;
+        t.setAttribute('disabled','disabled');
+      }
+    }
+    
+    </script>
+  </body>
+</html>
