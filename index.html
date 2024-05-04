@@ -3,16 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title>Test FoxIdenticon</title>
+    <style>
+    body{
+     font-family: sans-serif;
+     background: #ffffee;
+     font-size: 18px;
+    }
+    label, input[type=button]{
+      font-weight: bold;
+    }
+    fieldset{
+     border-radius: 5px;
+     border: navy 2px solid;
+    }
+    </style>
     
   </head>
   <body>
     <header></header>
     <main>
+    <h4>Enter the specs. of the Identification image below:</h4>
     <fieldset>
     <legend>Specs.</legend>
     <form id="specs">
-    <label>Text
-      <input type="text" name="str" id="str" placeholder="Text" value="" />
+    <label>ID
+      <input type="text" name="str" id="str" placeholder="Text" value="test@test.com" />
     </label>
     <label>Size
       <input type="number" name="s" id="s" value="10" min="1" max="36" />
@@ -23,11 +38,11 @@
     <label>Thick
       <input type="checkbox" name="t" id="t" disabled />
     </label>
-    <input type="button" id="change" value="Change" onclick="obj.change()" />
+    <input type="button" id="change" value="Change..." onclick="obj.change()" />
     </form>
     </fieldset>
     <div style="text-align:center; margin-top: 15px">
-      <img id="img" src="avatar.php?str=&s=10" />
+      <img id="img" src="avatar.php?str=test@test.com&s=10" />
     </div>
     </main>
     <footer></footer>
